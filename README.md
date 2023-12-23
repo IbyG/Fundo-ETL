@@ -5,7 +5,7 @@ This script automates the extraction and transformation of log files from Fundo 
 ## Table of Contents
 
 - [Prerequisites](#prerequisites)
-- [Database Setup](#database-setup)
+- [Setup](#setup)
 - [Usage](#usage)
 - [Notes](#notes)
 - [License](#license)
@@ -41,8 +41,6 @@ Before using the script, ensure you have the following prerequisites installed:
     ```
 
     Replace `/path/to/your/my.cnf` with the path to your `my.cnf` file, and `your_database` with the name of your MariaDB database.
-
-    **Note:** Ensure that the `database_schema.sql` file contains the necessary DDL statements for creating the required tables.
 
 4. **Create the `my.cnf` File:**
 
