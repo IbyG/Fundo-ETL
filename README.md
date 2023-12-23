@@ -55,14 +55,20 @@ Before using the script, ensure you have the following prerequisites installed:
     ```
 
     Save the file in the script directory.
-
-5. **Make the Script Executable:**
+   
+5. **Update Script**
+   ```bash
+    result=$(mysql --defaults-extra-file=/path/to/your/my.cnf -D "$db_name" -se "INSERT INTO $heartRate_table (Heart_Rate, Sport_ID) VALUES ($value, $id);")
+    ```
+   Update the path to the location where your `my.cnf` file is stored.
+   
+6. **Make the Script Executable:**
 
     ```bash
     chmod +x FundoExtractionScript.sh
     ```
 
-6. **Run the Script:**
+7. **Run the Script:**
 
     ```bash
     ./FundoExtractionScript.sh
