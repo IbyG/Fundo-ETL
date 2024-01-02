@@ -30,7 +30,8 @@ CREATE TABLE `HeartRate` (
   `HR_ID` int(11) NOT NULL AUTO_INCREMENT,
   `Heart_Rate` int(11) DEFAULT NULL,
   `Sport_ID` int(11) DEFAULT NULL,
+  `seconds` int(11) DEFAULT NULL COMMENT 'this will store the time interval per heart rate recorded',
   PRIMARY KEY (`HR_ID`),
   KEY `HeartRate_FK` (`Sport_ID`),
   CONSTRAINT `HeartRate_FK` FOREIGN KEY (`Sport_ID`) REFERENCES `Sport` (`Sport_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=3444 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10161 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;

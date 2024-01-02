@@ -205,12 +205,16 @@ for file in "$source_dir"/*; do
 
                         #looping through each heart rate value and inserting it into the database
                         IFS='&' read -ra arr_heart_rate_values <<< "$arr_heart_rate"
+			
+			#as the data set has no seconds being captured we need to capture it in code
+			seconds=0
 
                         # Loop through each value and print
                         for value in "${arr_heart_rate_values[@]}"; do
                             #echo "arrheartRate value: $value"
                             #inserting each heart rate value into the heart rate table
-                            result=$(mysql --defaults-extra-file=/home/homelab/Scripts/fundo_scripts/my.cnf -D "$db_name" -se "INSERT INTO $heartRate_table (Heart_Rate, Sport_ID) VALUES ($value, $id);")
+                            result=$(mysql --defaults-extra-file=/home/homelab/Scripts/fundo_scripts/my.cnf -D "$db_name" -se "INSERT INTO $heartRate_table (Heart_Rate, Sport_ID,seconds) VALUES ($value, $id,$seconds);")
+			    seconds=$((seconds + 10))
                         done
 
                         processed="true"
