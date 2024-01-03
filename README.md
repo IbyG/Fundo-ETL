@@ -63,7 +63,7 @@ Before using the script, ensure you have the following prerequisites installed:
    
 6. **Update Script**
    ```bash
-    result=$(mysql --defaults-extra-file=/path/to/your/my.cnf -D "$db_name" -se "INSERT INTO $heartRate_table (Heart_Rate, Sport_ID) VALUES ($value, $id);")
+    myConf="path/to/your/my.cnf"
     ```
    Update the path to the location where your `my.cnf` file is stored.
    
