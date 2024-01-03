@@ -19,6 +19,7 @@ db_name="Fundo"
 Main_table="Main"
 Sport_table="Sport"
 heartRate_table="HeartRate"
+myConf="/home/homelab/Scripts/Fundo-ETL/my.cnf"
 
 # Function to process a line and insert data into the MariaDB table
 process_line() {
@@ -35,15 +36,15 @@ process_line() {
             # Extract additional relevant data
             value="${BASH_REMATCH[1]}"
 
-            #echo "The date: $formatted_date"
-            #echo "The time: ${date_part:11}"  # Extracting the time from the date_part
-            #echo "The value: $value"
+            echo "The date: $formatted_date"
+            echo "The time: ${date_part:11}"  # Extracting the time from the date_part
+            echo "The value: $value"
 
             # Convert date format to dd-mm-yyyy
             formatted_date=$(date -d "$date_part" "+%d-%m-%Y")
 
             # Insert data into the MariaDB table
-            result=$(mysql --defaults-extra-file=/home/homelab/Scripts/fundo_scripts/my.cnf -D "$db_name" -se "INSERT INTO $Main_table (Date, Time, Record_type, Value) VALUES (STR_TO_DATE('$formatted_date','%d-%m-%Y'), '${date_part:11}', '$record_type', '$value');")
+            result=$(mysql --defaults-extra-file=$myConf -D "$db_name" -se "INSERT INTO $Main_table (Date, Time, Record_type, Value) VALUES (STR_TO_DATE('$formatted_date','%d-%m-%Y'), '${date_part:11}', '$record_type', '$value');")
 
 
 
@@ -201,7 +202,7 @@ for file in "$source_dir"/*; do
                         echo "Heart Rate: " $arr_heart_rate
                         echo "---------------------"
                         
-                        result=$(mysql --defaults-extra-file=/home/homelab/Scripts/fundo_scripts/my.cnf -D "$db_name" -se "INSERT INTO $Sport_table (Sport_ID, KM_Mile, Date, Step, minHeartRate, maxHeartRate, sportTime) VALUES ('$id', '$mile', STR_TO_DATE('$formatted_date','%d-%m-%Y'), '$step', '$min_heart_rate', '$max_heart_rate', '$sport_time');")
+                        result=$(mysql --defaults-extra-file=$myConf -D "$db_name" -se "INSERT INTO $Sport_table (Sport_ID, KM_Mile, Date, Step, minHeartRate, maxHeartRate, sportTime) VALUES ('$id', '$mile', STR_TO_DATE('$formatted_date','%d-%m-%Y'), '$step', '$min_heart_rate', '$max_heart_rate', '$sport_time');")
 
                         #looping through each heart rate value and inserting it into the database
                         IFS='&' read -ra arr_heart_rate_values <<< "$arr_heart_rate"
@@ -213,7 +214,7 @@ for file in "$source_dir"/*; do
                         for value in "${arr_heart_rate_values[@]}"; do
                             #echo "arrheartRate value: $value"
                             #inserting each heart rate value into the heart rate table
-                            result=$(mysql --defaults-extra-file=/home/homelab/Scripts/fundo_scripts/my.cnf -D "$db_name" -se "INSERT INTO $heartRate_table (Heart_Rate, Sport_ID,seconds) VALUES ($value, $id,$seconds);")
+                            result=$(mysql --defaults-extra-file=$myConf -D "$db_name" -se "INSERT INTO $heartRate_table (Heart_Rate, Sport_ID,seconds) VALUES ($value, $id,$seconds);")
 			    seconds=$((seconds + 10))
                         done
 
